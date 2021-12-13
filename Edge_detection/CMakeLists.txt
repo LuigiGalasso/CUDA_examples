@@ -1,0 +1,17 @@
+cmake_minimum_required(VERSION 2.8)
+project( edge LANGUAGES CXX CUDA)
+find_package( OpenCV REQUIRED)
+find_package( CUDA REQUIRED)
+#add_definitions(-DGPU)
+
+file( GLOB  hdr *.hpp *.h )
+file( GLOB  cu  *.cu)
+SET (edge_files main.cpp )
+set(CUDA_NVCC_FLAGS -O0;-G;-g)
+include_directories(${OpenCV_INCLUDE_DIRS})
+include_directories(${CUDA_INCLUDE_DIRS})
+#set(CMAKE_CUDA_SEPARABLE_COMPILATION ON)
+
+add_executable(edge ${edge_files} ${hdr} ${cu})
+target_link_libraries(edge ${OpenCV_LIBS} )
+target_link_libraries(edge ${CUDA_LIBRARIES})
